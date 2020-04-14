@@ -4,6 +4,10 @@ class errorController
 {
     function __construct()
     {
-        echo 'Ejecutando: '.__CLASS__;
+    }
+
+    public function index()
+    {
+        echo "Pagina no encontrada";
     }
 }

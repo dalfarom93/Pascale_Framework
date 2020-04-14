@@ -5,5 +5,5 @@
 //Se requiere clase principal del framework (pascale.php)
 require_once 'app/classes/Pascale.php';
 
-$pascale = new Pascale();
+Pascale::fly();
 

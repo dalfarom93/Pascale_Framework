@@ -15,7 +15,6 @@ class Pascale {
      */
     function __construct()
     {
-        echo "Ejecutando el constructor <br>";
         $this->init();
     }
 
@@ -36,7 +35,7 @@ class Pascale {
      */
     private function init_session()
     {
-        if(!session_start())
+        if(session_status() == PHP_SESSION_NONE)
         {
             session_start();
         }
@@ -125,7 +124,7 @@ class Pascale {
         //filtrar
         $this->filter_url();
 
-        //Controlador
+        //Controlador ------------------------------>
         if(isset($this->uri[0]))
         {
             $currentController = $this->uri[0];
@@ -143,8 +142,52 @@ class Pascale {
             $controller = DEFAULT_ERROR_CONTROLLER.'Controller';
         }
 
-        print_r($this->uri);
-        echo $controller;;
+        //Metodo------------------------------>
+        //ejecucion del metodo solicitado
+        if(isset($this->uri[1]))
+        {
+            $method = str_replace('-','_',$this->uri[1]);
+
+            //Existe o no el metodo dentro de la clase a ejecutar(controlador)
+            if(!method_exists($controller, $method))
+            {
+                $controller = DEFAULT_ERROR_CONTROLLER.'Controller'; //errorController
+                $currentMethod = DEFAULT_METHOD; //index
+            }else{
+                $currentMethod = $method;
+            }
+
+            unset($this->uri[1]);
+
+        }else{
+            $currentMethod = DEFAULT_METHOD; //index
+        }
+
+        //Ejecutando controlador y metodo segun peticion
+        $controller = new $controller;
+
+        //obteniendo parametros
+        $params = array_values(empty($this->uri)? [] : $this->uri);
+
+        //Llamada al metodo solicitado
+        if(empty($params))
+        {
+            call_user_func([$controller, $currentMethod]);
+        }else{
+            call_user_func_array([$controller, $currentMethod], $params);
+        }
+
+
+    }
+
+    /*
+     * Correr framework
+     */
+    public static function fly()
+    {
+        $pascale = new self();
+
+        return;
     }
 
 }
