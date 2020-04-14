@@ -91,11 +91,14 @@ class Pascale {
      */
     private function init_autoload()
     {
-        require_once CLASSES.'Db.php';
-        require_once CLASSES.'Model.php';
-        require_once CLASSES.'Controller.php';
-        require_once CONTROLLERS.DEFAULT_CONTROLLER.'Controller.php';
-        require_once CONTROLLERS.DEFAULT_ERROR_CONTROLLER.'Controller.php';
+        require_once CLASSES.'Autoloader.php';
+        Autoloader::init();
+        //require_once CLASSES.'Db.php';
+        //require_once CLASSES.'Model.php';
+        //require_once CLASSES.'View.php';
+        //require_once CLASSES.'Controller.php';
+        //require_once CONTROLLERS.DEFAULT_CONTROLLER.'Controller.php';
+        //require_once CONTROLLERS.DEFAULT_ERROR_CONTROLLER.'Controller.php';
 
         return;
     }
@@ -139,6 +142,7 @@ class Pascale {
         $controller = $currentController.'Controller';
         if(!class_exists($controller))
         {
+            $currentController = DEFAULT_ERROR_CONTROLLER;
             $controller = DEFAULT_ERROR_CONTROLLER.'Controller';
         }
 
@@ -162,6 +166,10 @@ class Pascale {
         }else{
             $currentMethod = DEFAULT_METHOD; //index
         }
+
+        //Creando constantes para utilizar en el software
+        define('CONTROLLER', $currentController);
+        define('METHOD', $currentMethod);
 
         //Ejecutando controlador y metodo segun peticion
         $controller = new $controller;

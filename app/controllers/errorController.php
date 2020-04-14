@@ -8,6 +8,6 @@ class errorController
 
     public function index()
     {
-        echo "Pagina no encontrada";
+        View::render('404');
     }
 }

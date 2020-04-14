@@ -8,7 +8,9 @@ class homeController
 
     public function index()
     {
-        require_once VIEWS.'testView.php';
+        $data = ['titulo' => 'Pascale Framework'];
+
+        View::render('pascale', $data);
     }
 
 

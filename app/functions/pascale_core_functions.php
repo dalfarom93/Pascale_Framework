@@ -1,8 +1,11 @@
 <?php
 
-/*
- * Funcion de prueba en core
- */
-function en_core(){
-    return 'ESTOY DENTRO DE CORE FUNCIONTS';
+function to_object($array)
+{
+    return json_decode(json_encode($array));
+}
+
+function get_siteName()
+{
+    return 'Pascale Framework';
 }
